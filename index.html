@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Survey Form</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+  <style>
+    /* Add this CSS for the animation */
+    @keyframes coffeeAnimation {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    .coffee-animation {
+      animation: coffeeAnimation 0.5s ease-in-out;
+    }
+  </style>
+
+<body>
+  <div class="survey">
+    <img src="pic/bgca.png" alt="encafe">
+    <h1 id="title">Welcome to En- Café Survey</h1>
+     <p id="description">Thank you for visiting our café! We value your feedback.</p>
+  </div>
+
+  <div class="container">
+      <form id="survey-form" action="/submit-survey" method="get">
+
+        <label id="name-label" for="name">Name :</label>
+        <input type="text" id="name" name="name"placeholder="Enter your Name">
+
+        <label id="email-label" for="email">Email :</label>
+        <input type="email" id="email" name="email"placeholder="Enter your email" required>
+<span id="email-error" class="error">Please enter a valid email address.</span>
+
+        <label id="number-label" for="number">Age :</label>
+        <input type="number" id="number" name="age" placeholder="Enter your age " min="18" max="60" required>
+          <span id="number-error" class="error">Please enter a valid number between 18 and 60.</span>
+
+        
+        <label id="dropdown-label" for="frequency">How often do you visit our café?</label>
+          <select id="dropdown" name="frequency">
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="rarely">Rarely</option>
+              <option value="first-time">This is my first time</option>
+          </select>
+
+          <label for="hear-about">How did you hear about our café?</label>
+          <input type="text" id="hear-about" name="hear-about">
+
+          <label>How would you rate the following aspects of our café?</label>
+          <table>
+              <tr>
+                  <th>Aspect</th>
+                  <th>Poor</th>
+                  <th>Fair</th>
+                  <th>Good</th>
+                  <th>Very Good</th>
+                  <th>Excellent</th>
+              </tr>
+              <tr>
+                  <td>Cleanliness</td>
+                  <td><input type="radio" name="cleanliness" value="poor" onchange="animateCoffee(this)"></td>
+                  <td><input type="radio" name="cleanliness" value="fair" onchange="animateCoffee(this)"></td>
+                  <td><input type="radio" name="cleanliness" value="good" onchange="animateCoffee(this)"></td>
+                  <td><input type="radio" name="cleanliness" value="very-good" onchange="animateCoffee(this)"></td>
+                  <td><input type="radio" name="cleanliness" value="excellent" onchange="animateCoffee(this)"></td>
+              </tr>
+              <tr>
+                  <td>Ambiance</td>
+                  <td><input type="radio" name="ambiance" value="poor" onchange="animateCoffee(this)"></td>
+                  <td><input type="radio" name="ambiance" value="fair" onchange="animateCoffee(this)"></td>
+                  <td><input type="radio" name="ambiance" value="good" onchange="animateCoffee(this)"></td>
+                  <td><input type="radio" name="ambiance" value="very-good" onchange="animateCoffee(this)"></td>
+                  <td><input type="radio" name="ambiance" value="excellent" onchange="animateCoffee(this)"></td>
+              </tr>
+              <!-- Add more rows as needed -->
+          </table>
+
+          <label>Which of the following items did you order? (Select all that apply)</label>
+          <input type="checkbox" id="coffee" name="order[]" value="coffee"> Coffee
+          <input type="checkbox" id="tea" name="order[]" value="tea"> Tea
+          <input type="checkbox" id="pastries" name="order[]" value="pastries"> Pastries
+          <input type="checkbox" id="sandwiches" name="order[]" value="sandwiches"> Sandwiches
+          <input type="checkbox" id="salads" name="order[]" value="salads"> Salads
+          <input type="checkbox" id="other" name="order[]" value="other"> Other
+
+          <label for="taste">How satisfied are you with the taste of your order?</label>
+          <select id="taste" name="taste">
+              <option value="very-dissatisfied">Very Dissatisfied</option>
+              <option value="dissatisfied">Dissatisfied</option>
+              <option value="neutral">Neutral</option>
+              <option value="satisfied">Satisfied</option>
+              <option value="very-satisfied" selected>Very Satisfied</option>
+          </select>
+
+          <label for="recommend">How likely are you to recommend our café to a friend or colleague?</label>
+          <select id="recommend" name="recommend">
+              <option value="very-unlikely" >Very Unlikely</option>
+              <option value="unlikely">Unlikely</option>
+              <option value="neutral">Neutral</option>
+              <option value="likely">Likely</option>
+              <option value="very-likely" selected>Very Likely</option>
+          </select>
+
+          <label for="suggestions">Do you have any suggestions for new menu items or improvements?</label>
+          <textarea id="suggestions" name="suggestions" rows="4" cols="50"></textarea>
+
+          <label for="pricing">How would you rate our pricing?</label>
+          <select id="pricing" name="pricing">
+              <option value="very-expensive">Very Expensive</option>
+              <option value="expensive">Expensive</option>
+              <option value="reasonable" selected>Reasonable</option>
+              <option value="cheap">Cheap</option>
+              <option value="very-cheap">Very Cheap</option>
+          </select>
+
+          <label for="staff">Was there any staff member who provided exceptional service? If so, please mention their name:</label>
+          <input type="text" id="staff" name="staff">
+
+          <label for="comments">Any additional comments or suggestions?</label>
+          <textarea id="comments" name="comments" rows="4" cols="50"></textarea>
+
+          <button type="submit">Submit</button>
+      </form>
+  </div>
+    <script>
+        document.getElementById('survey-form').addEventListener('submit', function(event) {
+          var email = document.getElementById('email');
+          var emailError = document.getElementById('email-error');
+          var age = document.getElementById('number');
+          var ageError = document.getElementById('number-error');
+
+          // Simple email regex for validation
+          var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+          // Check if email is valid
+          if (!emailPattern.test(email.value)) {
+            emailError.style.display = 'block';
+            event.preventDefault();
+          } else {
+            emailError.style.display = 'none';
+          }
+
+          // Check if age is a valid number within range
+          if (isNaN(age.value) || age.value < 18 || age.value > 60) {
+            ageError.style.display = 'block';
+            event.preventDefault();
+          } else {
+            ageError.style.display = 'none';
+          }
+        });
+
+      function animateCoffee(element) {
+        // Remove any previously added coffee images
+        document.querySelectorAll('.coffee-img').forEach(img => img.remove());
+        // Create a new coffee image element
+        const coffeeImg = document.createElement('img');
+        coffeeImg.src = 'pic/cup.png';
+        coffeeImg.classList.add('coffee-img');
+        // Insert the coffee image after the selected radio button
+        element.insertAdjacentElement('afterend', coffeeImg);
+        // Add animation class to the coffee image
+        coffeeImg.classList.add('coffee-animation');
+        // Remove animation class after animation completes
+        setTimeout(() => {
+          coffeeImg.classList.remove('coffee-animation');
+        }, 500);
+      }
+      </script>
+
+  <footer class="footer">
+    <p>&copy; 2024 En- Café. All rights reserved.</p>
+  </footer>
+  
+</body>
+
+</html>
